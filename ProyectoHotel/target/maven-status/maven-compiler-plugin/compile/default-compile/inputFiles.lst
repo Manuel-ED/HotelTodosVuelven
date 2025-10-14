@@ -1,14 +1,21 @@
-C:\Users\Pablo\Documents\NetBeansProjects\ProyectoHotel\src\main\java\Entidades\Cliente.java
-C:\Users\Pablo\Documents\NetBeansProjects\ProyectoHotel\src\main\java\Entidades\Habitacion.java
-C:\Users\Pablo\Documents\NetBeansProjects\ProyectoHotel\src\main\java\Entidades\Reserva.java
-C:\Users\Pablo\Documents\NetBeansProjects\ProyectoHotel\src\main\java\Estructuras\ArbolBinario.java
-C:\Users\Pablo\Documents\NetBeansProjects\ProyectoHotel\src\main\java\Estructuras\Cola.java
-C:\Users\Pablo\Documents\NetBeansProjects\ProyectoHotel\src\main\java\Estructuras\ListaEnlazada.java
-C:\Users\Pablo\Documents\NetBeansProjects\ProyectoHotel\src\main\java\Estructuras\Nodo.java
-C:\Users\Pablo\Documents\NetBeansProjects\ProyectoHotel\src\main\java\Estructuras\NodoArbol.java
-C:\Users\Pablo\Documents\NetBeansProjects\ProyectoHotel\src\main\java\Estructuras\TablaHash.java
-C:\Users\Pablo\Documents\NetBeansProjects\ProyectoHotel\src\main\java\Negocio\Hotel.java
-C:\Users\Pablo\Documents\NetBeansProjects\ProyectoHotel\src\main\java\Negocio\Inventario.java
-C:\Users\Pablo\Documents\NetBeansProjects\ProyectoHotel\src\main\java\Negocio\Recepcion.java
-C:\Users\Pablo\Documents\NetBeansProjects\ProyectoHotel\src\main\java\Vistas\EjemploCola.java
-C:\Users\Pablo\Documents\NetBeansProjects\ProyectoHotel\src\main\java\Vistas\PruebaBusqueda.java
+C:\Users\Pablo\Documents\UTP -- Ciclo 6\Algoritmos y Estructuras de Datos\HotelTodosVuelven\ProyectoHotel\src\main\java\Entidades\Cliente.java
+C:\Users\Pablo\Documents\UTP -- Ciclo 6\Algoritmos y Estructuras de Datos\HotelTodosVuelven\ProyectoHotel\src\main\java\Entidades\Habitacion.java
+C:\Users\Pablo\Documents\UTP -- Ciclo 6\Algoritmos y Estructuras de Datos\HotelTodosVuelven\ProyectoHotel\src\main\java\Entidades\Reserva.java
+C:\Users\Pablo\Documents\UTP -- Ciclo 6\Algoritmos y Estructuras de Datos\HotelTodosVuelven\ProyectoHotel\src\main\java\Estructuras\ArbolBinario.java
+C:\Users\Pablo\Documents\UTP -- Ciclo 6\Algoritmos y Estructuras de Datos\HotelTodosVuelven\ProyectoHotel\src\main\java\Estructuras\Cola.java
+C:\Users\Pablo\Documents\UTP -- Ciclo 6\Algoritmos y Estructuras de Datos\HotelTodosVuelven\ProyectoHotel\src\main\java\Estructuras\ListaEnlazada.java
+C:\Users\Pablo\Documents\UTP -- Ciclo 6\Algoritmos y Estructuras de Datos\HotelTodosVuelven\ProyectoHotel\src\main\java\Estructuras\Nodo.java
+C:\Users\Pablo\Documents\UTP -- Ciclo 6\Algoritmos y Estructuras de Datos\HotelTodosVuelven\ProyectoHotel\src\main\java\Estructuras\NodoArbol.java
+C:\Users\Pablo\Documents\UTP -- Ciclo 6\Algoritmos y Estructuras de Datos\HotelTodosVuelven\ProyectoHotel\src\main\java\Estructuras\TablaHash.java
+C:\Users\Pablo\Documents\UTP -- Ciclo 6\Algoritmos y Estructuras de Datos\HotelTodosVuelven\ProyectoHotel\src\main\java\Negocio\Hotel.java
+C:\Users\Pablo\Documents\UTP -- Ciclo 6\Algoritmos y Estructuras de Datos\HotelTodosVuelven\ProyectoHotel\src\main\java\Negocio\Inventario.java
+C:\Users\Pablo\Documents\UTP -- Ciclo 6\Algoritmos y Estructuras de Datos\HotelTodosVuelven\ProyectoHotel\src\main\java\Negocio\Recepcion.java
+C:\Users\Pablo\Documents\UTP -- Ciclo 6\Algoritmos y Estructuras de Datos\HotelTodosVuelven\ProyectoHotel\src\main\java\Util\Validador.java
+C:\Users\Pablo\Documents\UTP -- Ciclo 6\Algoritmos y Estructuras de Datos\HotelTodosVuelven\ProyectoHotel\src\main\java\Vistas\AñadirHabitacion.java
+C:\Users\Pablo\Documents\UTP -- Ciclo 6\Algoritmos y Estructuras de Datos\HotelTodosVuelven\ProyectoHotel\src\main\java\Vistas\Clientes.java
+C:\Users\Pablo\Documents\UTP -- Ciclo 6\Algoritmos y Estructuras de Datos\HotelTodosVuelven\ProyectoHotel\src\main\java\Vistas\Habitaciones.java
+C:\Users\Pablo\Documents\UTP -- Ciclo 6\Algoritmos y Estructuras de Datos\HotelTodosVuelven\ProyectoHotel\src\main\java\Vistas\MenuHotel.java
+C:\Users\Pablo\Documents\UTP -- Ciclo 6\Algoritmos y Estructuras de Datos\HotelTodosVuelven\ProyectoHotel\src\main\java\Vistas\NuevaReserva.java
+C:\Users\Pablo\Documents\UTP -- Ciclo 6\Algoritmos y Estructuras de Datos\HotelTodosVuelven\ProyectoHotel\src\main\java\Vistas\Recepcion.java
+C:\Users\Pablo\Documents\UTP -- Ciclo 6\Algoritmos y Estructuras de Datos\HotelTodosVuelven\ProyectoHotel\src\main\java\Vistas\RegistrarNuevoCliente.java
+C:\Users\Pablo\Documents\UTP -- Ciclo 6\Algoritmos y Estructuras de Datos\HotelTodosVuelven\ProyectoHotel\src\main\java\Vistas\Reservas.java
