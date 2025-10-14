@@ -3,12 +3,12 @@ Estructuras\TablaHash.class
 Estructuras\NodoArbol.class
 Entidades\Cliente.class
 Estructuras\ListaEnlazada.class
+Vistas\EjemploCola.class
 Entidades\Reserva.class
 Entidades\Habitacion.class
 Estructuras\ArbolBinario.class
 Estructuras\Nodo.class
 Negocio\Hotel.class
 Negocio\Inventario.class
-Vistas\MainApp.class
 Vistas\PruebaBusqueda.class
 Negocio\Recepcion.class
