@@ -5,7 +5,7 @@ public class Reserva {
     private Cliente cliente;
     private Habitacion habitacion;
     private String fechaCheckIn;
-    private String fechaCheckOut; 
+    private String fechaCheckOut;    
     private double costoTotal;
 
     public Reserva(String codigoReserva, Cliente cliente, Habitacion habitacion, 
@@ -66,11 +66,24 @@ public class Reserva {
         this.costoTotal = costoTotal;
     }
 
-    
     @Override
     public String toString() {
         return "Reserva [" + codigoReserva + "] Cliente: " + cliente.getNombre() + 
-               " | Habitacion: " + habitacion.getNumero() + 
-               " | Entrada: " + fechaCheckIn + " | Salida: " + fechaCheckOut;
+                " | Habitacion: " + habitacion.getNumero() + 
+                " | Entrada: " + fechaCheckIn + " | Salida: " + fechaCheckOut;
+    }
+        
+    
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Reserva reserva = (Reserva) o;
+        return codigoReserva.equals(reserva.codigoReserva); 
+    }
+
+    @Override
+    public int hashCode() {
+        return codigoReserva.hashCode();
     }
 }

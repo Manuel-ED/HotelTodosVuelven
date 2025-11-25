@@ -5,6 +5,7 @@ Estructuras\NodoArbol.class
 Entidades\Cliente.class
 Vistas\Clientes.class
 Vistas\Reservas$4.class
+Vistas\Main.class
 Vistas\AñadirHabitacion.class
 Vistas\Clientes$5.class
 Vistas\RegistrarNuevoCliente.class
@@ -30,6 +31,8 @@ Vistas\AñadirHabitacion$2.class
 Estructuras\Cola.class
 Vistas\MenuHotel$3.class
 Vistas\Reservas$2.class
+Estructuras\Entry.class
+Vistas\NuevaReserva$7.class
 Estructuras\ListaEnlazada.class
 Vistas\Recepcion$1.class
 Vistas\NuevaReserva$3.class

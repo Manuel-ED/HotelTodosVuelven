@@ -1,6 +1,6 @@
 package Entidades;
 
-public class Cliente {
+public class Cliente implements Comparable<Cliente> {
     private String dni;
     private String nombre;
     private String telefono;
@@ -45,8 +45,14 @@ public class Cliente {
         this.email = email;
     }
 
+
+    @Override 
+    public int compareTo(Cliente otroCliente) {
+        return this.dni.compareTo(otroCliente.dni);
+    }
+
     @Override
     public String toString() {
-        return "Cliente: DNI= " + dni + ", Nombre= " + nombre + ", Telefono= " + telefono +  " ";
+        return "Cliente: DNI= " + dni + ", Nombre= " + nombre + ", Telefono= " + telefono + " ";
     }
 }

@@ -2,12 +2,16 @@ package Estructuras;
 
 public class ListaEnlazada<T> {
     
-    private Nodo<T> cabeza; 
+    private Nodo<T> cabeza;
     private int tamano;
 
     public ListaEnlazada() {
         this.cabeza = null;
         this.tamano = 0;
+    }
+
+    public Nodo<T> getCabeza() {
+        return cabeza;
     }
 
     public boolean estaVacia() {
@@ -31,13 +35,13 @@ public class ListaEnlazada<T> {
         }
 
         if (actual == null) {
-            return false; 
+            return false;
         }
 
         if (anterior == null) {
-            cabeza = actual.getSiguiente(); 
+            cabeza = actual.getSiguiente();
         } else {
-            anterior.setSiguiente(actual.getSiguiente()); 
+            anterior.setSiguiente(actual.getSiguiente());
         }
         tamano--;
         return true;
@@ -47,18 +51,14 @@ public class ListaEnlazada<T> {
         Nodo<T> actual = cabeza;
         
         while (actual != null) {
-            
             if (actual.getDato() instanceof Entidades.Reserva) {
                 Entidades.Reserva reserva = (Entidades.Reserva) actual.getDato();
                 if (reserva.getCodigoReserva().equals(codigo)) {
                     return actual.getDato();
                 }
-            } else {
             }
-
             actual = actual.getSiguiente();
         }
-        
         return null;
     }
 
