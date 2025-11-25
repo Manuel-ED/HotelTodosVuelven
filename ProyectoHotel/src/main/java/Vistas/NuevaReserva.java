@@ -4,6 +4,9 @@
  */
 package Vistas;
 
+import Negocio.Hotel;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Pablo
@@ -15,9 +18,13 @@ public class NuevaReserva extends javax.swing.JFrame {
     /**
      * Creates new form NuevaReserva
      */
-    public NuevaReserva() {
-        initComponents();
-    }
+    private Hotel hotel;
+
+public NuevaReserva(Hotel hotel) {
+    initComponents();
+    this.hotel = hotel;
+}
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -36,7 +43,7 @@ public class NuevaReserva extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         txtBuscarCliente = new javax.swing.JTextField();
         btnBuscarCliente = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        btnNuevoCliente = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
@@ -67,7 +74,7 @@ public class NuevaReserva extends javax.swing.JFrame {
         CalenderCheckIN = new com.toedter.calendar.JDateChooser();
         CalenderCheckOUT = new com.toedter.calendar.JDateChooser();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(102, 102, 102));
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Registrar Nueva Reserva", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 14))); // NOI18N
@@ -104,10 +111,10 @@ public class NuevaReserva extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setText("Nuevo Cliente?");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnNuevoCliente.setText("Nuevo Cliente?");
+        btnNuevoCliente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnNuevoClienteActionPerformed(evt);
             }
         });
 
@@ -170,7 +177,7 @@ public class NuevaReserva extends javax.swing.JFrame {
                                 .addGap(18, 18, 18)
                                 .addComponent(jLabel10)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton1)
+                        .addComponent(btnNuevoCliente)
                         .addGap(60, 60, 60))))
         );
         jPanel2Layout.setVerticalGroup(
@@ -195,7 +202,7 @@ public class NuevaReserva extends javax.swing.JFrame {
                     .addComponent(jLabel8)
                     .addComponent(jLabel5)
                     .addComponent(jLabel6)
-                    .addComponent(jButton1))
+                    .addComponent(btnNuevoCliente))
                 .addContainerGap(33, Short.MAX_VALUE))
         );
 
@@ -254,7 +261,7 @@ public class NuevaReserva extends javax.swing.JFrame {
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addComponent(jLabel14)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -361,9 +368,8 @@ public class NuevaReserva extends javax.swing.JFrame {
                             .addComponent(CalenderCheckIN, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel18)
-                                .addComponent(btnCalcularMontoTotal))
+                            .addComponent(jLabel18)
+                            .addComponent(btnCalcularMontoTotal)
                             .addComponent(CalenderCheckOUT, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel17)
@@ -419,57 +425,152 @@ public class NuevaReserva extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        // TODO add your handling code here:
+    this.dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnGuardarReservaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarReservaActionPerformed
-        // TODO add your handling code here:
+    try {
+        String dni = txtBuscarCliente.getText().trim();
+        Entidades.Cliente c = hotel.buscarCliente(dni);
+        if (c == null) {
+            JOptionPane.showMessageDialog(this, "Debe seleccionar un cliente válido.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        String habStr = txtNumeroHabitacionDeseada.getText().trim();
+        if (habStr.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Ingrese un número de habitación.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        int numH = Integer.parseInt(habStr);
+        Entidades.Habitacion h = hotel.getInventarioManager().buscarHabitacion(numH);
+
+        if (h == null || !"Libre".equals(h.getEstado())) {
+            JOptionPane.showMessageDialog(this, "La habitación no está disponible.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        if (CalenderCheckIN.getDate() == null || CalenderCheckOUT.getDate() == null) {
+            JOptionPane.showMessageDialog(this, "Debe seleccionar Fechas de Check-in y Check-out.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        String fechaIn = new java.text.SimpleDateFormat("dd/MM/yyyy").format(CalenderCheckIN.getDate());
+        String fechaOut = new java.text.SimpleDateFormat("dd/MM/yyyy").format(CalenderCheckOUT.getDate());
+
+        double costo;
+        try {
+            costo = Double.parseDouble(jLabel23.getText());
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Calcule el costo total antes de guardar.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        String codigo = java.util.UUID.randomUUID().toString().substring(0, 8);
+        Entidades.Reserva r = new Entidades.Reserva(codigo, c, h, fechaIn, fechaOut, costo);
+
+        hotel.crearReserva(r);
+
+        JOptionPane.showMessageDialog(this, "Reserva registrada correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+
+        this.dispose();
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Ocurrió un error al guardar la reserva.", "Error", JOptionPane.ERROR_MESSAGE);
+    }
     }//GEN-LAST:event_btnGuardarReservaActionPerformed
 
     private void btnVerificarDisponibilidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerificarDisponibilidadActionPerformed
-        // TODO add your handling code here:
+    try {
+        String numHabStr = txtNumeroHabitacionDeseada.getText().trim();
+        if (numHabStr.isEmpty()) throw new NumberFormatException();
+        int numHab = Integer.parseInt(numHabStr);
+        Entidades.Habitacion hab = hotel.getInventarioManager().buscarHabitacion(numHab);
+        if (hab != null) {
+            jLabel15.setText(hab.getTipo());
+            jLabel16.setText(String.valueOf(hab.getPrecio()));
+            jLabel20.setText(hab.getEstado());
+            if (!hab.getEstado().equalsIgnoreCase("Libre")) {
+                JOptionPane.showMessageDialog(this, "La habitación no está disponible.", "Aviso", JOptionPane.WARNING_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Habitación no encontrada.", "Aviso", JOptionPane.WARNING_MESSAGE);
+            jLabel15.setText("");
+            jLabel16.setText("");
+            jLabel20.setText("");
+        }
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(this, "Número de habitación inválido.", "Error", JOptionPane.ERROR_MESSAGE);
+    }
     }//GEN-LAST:event_btnVerificarDisponibilidadActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void btnNuevoClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoClienteActionPerformed
+        RegistrarNuevoCliente vista = new RegistrarNuevoCliente(hotel);
+
+    vista.addWindowListener(new java.awt.event.WindowAdapter() {
+        @Override
+        public void windowClosed(java.awt.event.WindowEvent e) {
+            String dni = txtBuscarCliente.getText().trim();
+            if (!dni.isEmpty()) {
+                Entidades.Cliente cliente = hotel.buscarCliente(dni);
+                if (cliente != null) {
+                    jLabel7.setText(cliente.getNombre());
+                    jLabel6.setText(cliente.getEmail());
+                    jLabel10.setText(cliente.getTelefono());
+                    jLabel8.setText(cliente.getDni());
+                }
+            }
+        }
+    });
+
+    vista.setVisible(true);
+    }//GEN-LAST:event_btnNuevoClienteActionPerformed
 
     private void btnBuscarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarClienteActionPerformed
-        // TODO add your handling code here:
+    String dni = txtBuscarCliente.getText().trim();
+    Entidades.Cliente cliente = hotel.buscarCliente(dni);
+    if (cliente != null) {
+        jLabel7.setText(cliente.getNombre());
+        jLabel6.setText(cliente.getEmail());
+        jLabel10.setText(cliente.getTelefono());
+        jLabel8.setText(cliente.getDni());
+    } else {
+        JOptionPane.showMessageDialog(this, "Cliente no encontrado.", "Aviso", JOptionPane.WARNING_MESSAGE);
+        jLabel7.setText("");
+        jLabel6.setText("");
+        jLabel10.setText("");
+        jLabel8.setText("");
+    }
     }//GEN-LAST:event_btnBuscarClienteActionPerformed
 
     private void btnOtraHabitacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOtraHabitacionActionPerformed
-        // TODO add your handling code here:
+    txtNumeroHabitacionDeseada.setText("");
+    jLabel15.setText("");
+    jLabel16.setText("");
+    jLabel20.setText("");
+    jLabel23.setText("");
     }//GEN-LAST:event_btnOtraHabitacionActionPerformed
 
     private void btnCalcularMontoTotalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCalcularMontoTotalActionPerformed
-        // TODO add your handling code here:
+    java.util.Date fechaIn = CalenderCheckIN.getDate();
+    java.util.Date fechaOut = CalenderCheckOUT.getDate();
+    double precioHab = Double.parseDouble(jLabel16.getText());
+    long dif = fechaOut.getTime() - fechaIn.getTime();
+    int dias = (int) (dif / (1000*60*60*24));
+    if (dias <= 0) {
+        JOptionPane.showMessageDialog(this, "Fechas seleccionadas inválidas.", "Error", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+    double total = dias * precioHab;
+    jLabel23.setText(String.valueOf(total)); 
     }//GEN-LAST:event_btnCalcularMontoTotalActionPerformed
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
-            logger.log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+    
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new NuevaReserva().setVisible(true));
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.toedter.calendar.JDateChooser CalenderCheckIN;
@@ -478,9 +579,9 @@ public class NuevaReserva extends javax.swing.JFrame {
     private javax.swing.JButton btnCalcularMontoTotal;
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnGuardarReserva;
+    private javax.swing.JButton btnNuevoCliente;
     private javax.swing.JButton btnOtraHabitacion;
     private javax.swing.JButton btnVerificarDisponibilidad;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;

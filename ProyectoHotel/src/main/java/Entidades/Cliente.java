@@ -1,16 +1,25 @@
 package Entidades;
 
+import java.time.LocalTime;
+
 public class Cliente implements Comparable<Cliente> {
     private String dni;
     private String nombre;
     private String telefono;
     private String email;
+    private String horaLlegada;
 
     public Cliente(String dni, String nombre, String telefono, String email) {
         this.dni = dni;
         this.nombre = nombre;
         this.telefono = telefono;
         this.email = email;
+        this.horaLlegada = java.time.LocalTime.now()
+            .format(java.time.format.DateTimeFormatter.ofPattern("HH:mm:ss"));
+    }
+    
+    public Cliente(String dni) {
+    this.dni = dni;
     }
 
     public String getDni() {
@@ -28,6 +37,15 @@ public class Cliente implements Comparable<Cliente> {
     public String getEmail() {
         return email;
     }
+    
+    public String getHoraLlegada() {
+    return horaLlegada;
+    }
+    
+    public void setHoraLlegada(String horaLlegada) {
+    this.horaLlegada = horaLlegada;
+    }
+
 
     public void setDni(String dni) {
         this.dni = dni;

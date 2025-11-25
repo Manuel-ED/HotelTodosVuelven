@@ -21,22 +21,22 @@ public class Entry<K, V> {
         this.valor = valor;
     }
 
-    
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Entry<?, ?> entry = (Entry<?, ?>) o;
-        return clave.equals(entry.clave); 
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Entry<?, ?> other = (Entry<?, ?>) obj;
+        if (clave == null) return other.clave == null;
+        return clave.equals(other.clave);
     }
-    
+
     @Override
     public int hashCode() {
-        return clave.hashCode();
+        return (clave == null) ? 0 : clave.hashCode();
     }
-    
+
     @Override
     public String toString() {
-        return "{" + clave.toString() + "=" + valor.toString() + "}";
+        return "{" + clave + " => " + valor + "}";
     }
 }

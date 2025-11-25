@@ -59,4 +59,7 @@ public class ArbolBinario<T extends Comparable<T>> {
             recorrerInOrdenRecursivo(nodoActual.getDerecha());
         }
     }
+    public NodoArbol<T> getRaiz() {
+    return raiz;
+}
 }

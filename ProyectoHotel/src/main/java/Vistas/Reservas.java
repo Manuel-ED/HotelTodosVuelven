@@ -4,6 +4,9 @@
  */
 package Vistas;
 
+import Negocio.Hotel;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Pablo
@@ -15,9 +18,13 @@ public class Reservas extends javax.swing.JFrame {
     /**
      * Creates new form Reservas
      */
-    public Reservas() {
-        initComponents();
-    }
+    private Hotel hotel;
+
+public Reservas(Hotel hotel) {
+    initComponents();
+    this.hotel = hotel;
+    actualizarVistaReservas();
+}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -39,7 +46,7 @@ public class Reservas extends javax.swing.JFrame {
         btnCancelarReserva = new javax.swing.JButton();
         btnActualizarVista = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(102, 102, 102));
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Lista de Reservas Activas", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 14))); // NOI18N
@@ -55,7 +62,7 @@ public class Reservas extends javax.swing.JFrame {
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, true, true, true
+                false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -181,45 +188,106 @@ public class Reservas extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-        // TODO add your handling code here:
+    String query = txtBuscarReserva.getText().trim();
+    javax.swing.table.DefaultTableModel modelo = (javax.swing.table.DefaultTableModel) tbListaReservas.getModel();
+    modelo.setRowCount(0);
+    
+    Entidades.Reserva reserva = hotel.buscarReserva(query);
+    if (reserva != null) {
+        modelo.addRow(new Object[]{
+            reserva.getCodigoReserva(),
+            reserva.getCliente().getNombre(),
+            reserva.getHabitacion().getNumero(),
+            reserva.getHabitacion().getTipo(),
+            reserva.getFechaCheckIn(),
+            reserva.getFechaCheckOut(),
+            reserva.getCostoTotal()
+        });
+        return;
+    }
+
+    Estructuras.ListaEnlazada<Entidades.Reserva> reservas = hotel.getListaReservas();
+    Estructuras.Nodo<Entidades.Reserva> actual = reservas.getCabeza();
+    while (actual != null) {
+        Entidades.Reserva r = actual.getDato();
+        if (r.getCliente().getDni().equals(query)) {
+            modelo.addRow(new Object[]{
+                r.getCodigoReserva(),
+                r.getCliente().getNombre(),
+                r.getHabitacion().getNumero(),
+                r.getHabitacion().getTipo(),
+                r.getFechaCheckIn(),
+                r.getFechaCheckOut(),
+                r.getCostoTotal()
+            });
+        }
+        actual = actual.getSiguiente();
+    }
+    if (modelo.getRowCount() == 0) {
+    JOptionPane.showMessageDialog(this, "No se encontraron reservas.", 
+                                  "Sin resultados", JOptionPane.INFORMATION_MESSAGE);
+    }
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void btnCancelarReservaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarReservaActionPerformed
-        // TODO add your handling code here:
+    int fila = tbListaReservas.getSelectedRow();
+    if (fila == -1) {
+        JOptionPane.showMessageDialog(this, "Selecciona una reserva para cancelar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+        return;
+    }
+    String codigo = tbListaReservas.getValueAt(fila, 0).toString();
+    Entidades.Reserva reserva = hotel.buscarReserva(codigo);
+    if (reserva != null && hotel.cancelarReserva(reserva)) {
+        JOptionPane.showMessageDialog(this, "Reserva cancelada exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+        actualizarVistaReservas();
+    } else {
+        JOptionPane.showMessageDialog(this, "No se pudo cancelar la reserva.", "Error", JOptionPane.ERROR_MESSAGE);
+    }
     }//GEN-LAST:event_btnCancelarReservaActionPerformed
 
     private void btnActualizarVistaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarVistaActionPerformed
-        // TODO add your handling code here:
+    actualizarVistaReservas();
     }//GEN-LAST:event_btnActualizarVistaActionPerformed
 
     private void btnNuevaReservaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevaReservaActionPerformed
-        // TODO add your handling code here:
+    NuevaReserva ventana = new NuevaReserva(hotel);
+    ventana.addWindowListener(new java.awt.event.WindowAdapter() {
+        @Override
+        public void windowClosed(java.awt.event.WindowEvent e) {
+            actualizarVistaReservas();
+        }
+    });
+    ventana.setVisible(true);
     }//GEN-LAST:event_btnNuevaReservaActionPerformed
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
-            logger.log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new Reservas().setVisible(true));
+    
+    public void actualizarVistaReservas() {
+    javax.swing.table.DefaultTableModel modelo = (javax.swing.table.DefaultTableModel) tbListaReservas.getModel();
+    modelo.setRowCount(0);
+    
+    Estructuras.ListaEnlazada<Entidades.Reserva> reservas = hotel.getListaReservas();
+    Estructuras.Nodo<Entidades.Reserva> actual = reservas.getCabeza();
+    while (actual != null) {
+        Entidades.Reserva r = actual.getDato();
+        modelo.addRow(new Object[]{
+            r.getCodigoReserva(),
+            r.getCliente().getNombre(),
+            r.getHabitacion().getNumero(),
+            r.getHabitacion().getTipo(),
+            r.getFechaCheckIn(),
+            r.getFechaCheckOut(),
+            r.getCostoTotal()
+        });
+        actual = actual.getSiguiente();
     }
+}
+    
+    public void actualizarTablaReservas() {
+    actualizarVistaReservas();
+}
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnActualizarVista;

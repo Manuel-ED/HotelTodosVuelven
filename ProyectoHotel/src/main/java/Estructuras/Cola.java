@@ -78,4 +78,14 @@ public class Cola<T> {
         }
         return sb.toString();
     }
+    
+    public ListaEnlazada<T> obtenerElementosComoLista() {
+    ListaEnlazada<T> lista = new ListaEnlazada<>();
+    Nodo<T> actual = frente;
+    while (actual != null) {
+        lista.insertarInicio(actual.getDato());
+        actual = actual.getSiguiente();
+    }
+    return lista;
+}
 }

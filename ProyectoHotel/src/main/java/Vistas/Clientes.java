@@ -4,20 +4,67 @@
  */
 package Vistas;
 
-/**
- *
- * @author Pablo
- */
-public class Clientes extends javax.swing.JFrame {
-    
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Clientes.class.getName());
+import Entidades.Cliente;
+import Entidades.Reserva;
+import Estructuras.ListaEnlazada;
+import Estructuras.Nodo;
+import Negocio.Hotel;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
-    /**
-     * Creates new form Clientes
-     */
-    public Clientes() {
+public class Clientes extends javax.swing.JFrame {
+
+    private final Hotel hotel;
+
+    public Clientes(Hotel hotel) {
+        this.hotel = hotel;
         initComponents();
     }
+
+    private void cargarTablaTodosLosClientes() {
+        DefaultTableModel model = (DefaultTableModel) tbDetalles.getModel();
+        model.setRowCount(0);
+        cargarInOrden(hotel.getArbolClientes().getRaiz(), model);
+    }
+
+    private void cargarInOrden(Estructuras.NodoArbol<Cliente> nodo, DefaultTableModel model) {
+        if (nodo == null) return;
+        cargarInOrden(nodo.getIzquierda(), model);
+
+        Cliente c = nodo.getDato();
+        model.addRow(new Object[]{c.getDni(), c.getNombre()});
+
+        cargarInOrden(nodo.getDerecha(), model);
+    }
+
+    private void mostrarCliente(Cliente c) {
+        jLabel9.setText(c.getDni());
+        jLabel10.setText(c.getNombre());
+        jLabel11.setText(c.getTelefono());
+        jLabel12.setText(c.getEmail());
+    }
+    
+    private void cargarHistorialReservas(Cliente c) {
+        DefaultTableModel model = (DefaultTableModel) tbHistorialReservas.getModel();
+        model.setRowCount(0);
+
+        ListaEnlazada<Reserva> lista = hotel.getListaReservas();
+        Nodo<Reserva> actual = lista.getCabeza();
+
+        while (actual != null) {
+            Reserva r = actual.getDato();
+            if (r.getCliente().getDni().equals(c.getDni())) {
+                model.addRow(new Object[]{
+                    r.getCodigoReserva(),
+                    r.getHabitacion().getNumero(),
+                    r.getFechaCheckIn(),
+                    r.getFechaCheckOut()
+                });
+            }
+            actual = actual.getSiguiente();
+        }
+    }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -216,28 +263,28 @@ public class Clientes extends javax.swing.JFrame {
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2)
                             .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel3Layout.createSequentialGroup()
-                                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addGroup(jPanel3Layout.createSequentialGroup()
                                         .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGap(226, 226, 226)
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                     .addGroup(jPanel3Layout.createSequentialGroup()
-                                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(89, 89, 89)
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addGroup(jPanel3Layout.createSequentialGroup()
                                         .addComponent(jLabel4)
                                         .addGap(18, 18, 18)
-                                        .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                        .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addGroup(jPanel3Layout.createSequentialGroup()
+                                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(39, 39, 39)
+                                        .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE))))
                             .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 569, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel7))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 108, Short.MAX_VALUE)))
                 .addContainerGap())
             .addComponent(jScrollPane2)
         );
@@ -275,7 +322,10 @@ public class Clientes extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -290,41 +340,47 @@ public class Clientes extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnRegitsrarNuevoClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegitsrarNuevoClienteActionPerformed
-        // TODO add your handling code here:
+    RegistrarNuevoCliente ventana = new RegistrarNuevoCliente(hotel);
+        ventana.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosed(java.awt.event.WindowEvent e) {
+                cargarTablaTodosLosClientes();
+            }
+        });
+        ventana.setVisible(true);
     }//GEN-LAST:event_btnRegitsrarNuevoClienteActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-        // TODO add your handling code here:
+    String dni = txtBuscarCliente.getText().trim();
+
+        if (!Util.Validador.validarDni(dni)) {
+            JOptionPane.showMessageDialog(this, "Ingrese un DNI válido.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        Cliente c = hotel.buscarCliente(dni);
+
+        if (c == null) {
+            JOptionPane.showMessageDialog(this, "Cliente no encontrado.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        mostrarCliente(c);
+        cargarHistorialReservas(c);
+
+        DefaultTableModel model = (DefaultTableModel) tbDetalles.getModel();
+        model.setRowCount(0);
+        model.addRow(new Object[]{c.getDni(), c.getNombre()});
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void btnVerTodosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerTodosActionPerformed
-        // TODO add your handling code here:
+       cargarTablaTodosLosClientes();
     }//GEN-LAST:event_btnVerTodosActionPerformed
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
-            logger.log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new Clientes().setVisible(true));
-    }
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;

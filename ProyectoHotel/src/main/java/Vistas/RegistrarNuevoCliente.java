@@ -3,20 +3,22 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package Vistas;
-
+import Negocio.Hotel;
+import Entidades.Cliente;
+import Util.Validador; 
+import javax.swing.JOptionPane;
 /**
  *
  * @author Pablo
  */
 public class RegistrarNuevoCliente extends javax.swing.JFrame {
-    
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(RegistrarNuevoCliente.class.getName());
 
-    /**
-     * Creates new form RegistrarNuevoCliente
-     */
-    public RegistrarNuevoCliente() {
+    private Hotel hotel;
+
+    public RegistrarNuevoCliente(Hotel hotel) {
         initComponents();
+        this.hotel = hotel;
+        setLocationRelativeTo(null);
     }
 
     /**
@@ -40,7 +42,7 @@ public class RegistrarNuevoCliente extends javax.swing.JFrame {
         txtTelefono = new javax.swing.JTextField();
         txtEmail = new javax.swing.JTextField();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(102, 102, 102));
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Registrar Nuevo Cliente", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 14))); // NOI18N
@@ -142,37 +144,66 @@ public class RegistrarNuevoCliente extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnGuardarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarClienteActionPerformed
-        // TODO add your handling code here:
+    String dni = txtDNI.getText().trim();
+    String nombre = txtNombreCompleto.getText().trim();
+    String telefono = txtTelefono.getText().trim();
+    String email = txtEmail.getText().trim();
+
+    if (!Validador.validarDni(dni)) {
+        JOptionPane.showMessageDialog(this, "Error: DNI debe ser numérico de 8 dígitos.", "Validación", JOptionPane.WARNING_MESSAGE);
+        txtDNI.requestFocus();
+        return;
+    }
+
+    if (!Validador.esAlfabetico(nombre)) {
+        JOptionPane.showMessageDialog(this, "Error: El nombre es obligatorio y solo debe contener letras.", "Validación", JOptionPane.WARNING_MESSAGE);
+        txtNombreCompleto.requestFocus();
+        return;
+    }
+
+    if (Validador.esNoVacio(telefono) && !Validador.validarTelefono(telefono)) {
+        JOptionPane.showMessageDialog(this, "Error: Formato de Teléfono inválido.", "Validación", JOptionPane.WARNING_MESSAGE);
+        txtTelefono.requestFocus();
+        return;
+    }
+
+    if (Validador.esNoVacio(email) && !Validador.validarEmail(email)) {
+        JOptionPane.showMessageDialog(this, "Error: Formato de Email inválido.", "Validación", JOptionPane.WARNING_MESSAGE);
+        txtEmail.requestFocus();
+        return;
+    }
+
+    try {
+        if (hotel.buscarCliente(dni) != null) {
+            JOptionPane.showMessageDialog(this, "Error: El cliente con DNI " + dni + " ya está registrado.", "Duplicado", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        Cliente nuevoCliente = new Cliente(dni, nombre, telefono, email);
+        hotel.registrarNuevoCliente(nuevoCliente);
+
+        JOptionPane.showMessageDialog(this, "Cliente '" + nombre + "' registrado con éxito.", "Registro Exitoso", JOptionPane.INFORMATION_MESSAGE);
+
+        limpiarCampos();
+        this.dispose();
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Ocurrió un error al registrar el cliente: " + e.getMessage(), "Error Interno", JOptionPane.ERROR_MESSAGE);
+    }
     }//GEN-LAST:event_btnGuardarClienteActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        // TODO add your handling code here:
+        this.dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
-
+    private void limpiarCampos() {
+    txtDNI.setText("");
+    txtNombreCompleto.setText("");
+    txtTelefono.setText("");
+    txtEmail.setText("");
+    }
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
-            logger.log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new RegistrarNuevoCliente().setVisible(true));
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar;

@@ -61,6 +61,20 @@ public class ListaEnlazada<T> {
         }
         return null;
     }
+    
+    public void insertarFinal(T dato) {
+    Nodo<T> nuevo = new Nodo<>(dato);
+    if (estaVacia()) {
+        cabeza = nuevo;
+    } else {
+        Nodo<T> actual = cabeza;
+        while (actual.getSiguiente() != null) {
+            actual = actual.getSiguiente();
+        }
+        actual.setSiguiente(nuevo);
+    }
+    tamano++;
+}
 
     public void mostrarLista() {
         if (estaVacia()) {

@@ -26,7 +26,7 @@ public class Hotel {
     }
     
     public Cliente buscarCliente(String dni) {
-        Cliente clienteDummy = new Cliente(dni, null, null, null); 
+       Cliente clienteDummy = new Cliente(dni);
         return arbolClientes.buscar(clienteDummy);
     }
 

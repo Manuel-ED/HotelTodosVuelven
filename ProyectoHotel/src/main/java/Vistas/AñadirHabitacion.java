@@ -4,20 +4,25 @@
  */
 package Vistas;
 
+import Entidades.Habitacion;
+import Negocio.Hotel;
+import Util.Validador;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Pablo
  */
 public class AñadirHabitacion extends javax.swing.JFrame {
-    
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(AñadirHabitacion.class.getName());
 
-    /**
-     * Creates new form AñadirHabitacion
-     */
-    public AñadirHabitacion() {
+    private Hotel hotel;
+
+    public AñadirHabitacion(Hotel hotel) {
         initComponents();
+        this.hotel = hotel;
+        setLocationRelativeTo(null);
     }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -40,7 +45,7 @@ public class AñadirHabitacion extends javax.swing.JFrame {
         cmbEstadoInicial = new javax.swing.JComboBox<>();
         cmbTipoHabitacion = new javax.swing.JComboBox<>();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(102, 102, 102));
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Añadir nueva habitación", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 14))); // NOI18N
@@ -140,37 +145,44 @@ public class AñadirHabitacion extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAñadirHabitacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAñadirHabitacionActionPerformed
-        // TODO add your handling code here:
+    String numStr = txtNumeroHabitacion.getText().trim();
+        String precioStr = txtPrecioNoche.getText().trim();
+
+        if (!Validador.validarNumeroHabitacion(numStr)) {
+            JOptionPane.showMessageDialog(this, "Número de habitación inválido.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        if (!Validador.validarPrecio(precioStr)) {
+            JOptionPane.showMessageDialog(this, "Precio inválido.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        int numero = Integer.parseInt(numStr);
+        double precio = Double.parseDouble(precioStr);
+        String tipo = cmbTipoHabitacion.getSelectedItem().toString();
+        String estado = cmbEstadoInicial.getSelectedItem().toString();
+
+        if (hotel.getInventarioManager().buscarHabitacion(numero) != null) {
+            JOptionPane.showMessageDialog(this, "Ya existe una habitación con ese número.", "Duplicado", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        Habitacion nueva = new Habitacion(numero, tipo, precio, estado);
+        hotel.getInventarioManager().registrarHabitacion(nueva);
+
+        JOptionPane.showMessageDialog(this, "Habitación añadida exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+        this.dispose();
     }//GEN-LAST:event_btnAñadirHabitacionActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        // TODO add your handling code here:
+    this.dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
-            logger.log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new AñadirHabitacion().setVisible(true));
-    }
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAñadirHabitacion;

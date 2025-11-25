@@ -34,6 +34,10 @@ public class Recepcion {
         return filaEsperaClientes.frente();
     }
     
+    public Cola<Cliente> getFilaEsperaClientes() {
+    return filaEsperaClientes;
+}
+    
 
     public void mostrarEstadoFila() {
         System.out.println("\n--- Estado Actual de la Fila de Recepcion (" + filaEsperaClientes.getTamano() + " clientes) ---");

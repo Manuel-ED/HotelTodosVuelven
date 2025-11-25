@@ -1,11 +1,11 @@
 Vistas\Clientes$1.class
 Util\Validador.class
+Vistas\MenuHotel$8.class
 Vistas\RegistrarNuevoCliente$2.class
 Estructuras\NodoArbol.class
 Entidades\Cliente.class
 Vistas\Clientes.class
 Vistas\Reservas$4.class
-Vistas\Main.class
 Vistas\AñadirHabitacion.class
 Vistas\Clientes$5.class
 Vistas\RegistrarNuevoCliente.class
@@ -17,11 +17,13 @@ Estructuras\ArbolBinario.class
 Vistas\MenuHotel$1.class
 Vistas\Recepcion$3.class
 Estructuras\Nodo.class
+Vistas\MenuHotel$9.class
 Vistas\NuevaReserva$6.class
 Estructuras\TablaHash.class
 Vistas\MenuHotel$2.class
 Vistas\Habitaciones.class
 Vistas\NuevaReserva$4.class
+Vistas\Reservas$6.class
 Vistas\Clientes$4.class
 Vistas\Habitaciones$2.class
 Vistas\Reservas$3.class
@@ -35,7 +37,9 @@ Estructuras\Entry.class
 Vistas\NuevaReserva$7.class
 Estructuras\ListaEnlazada.class
 Vistas\Recepcion$1.class
+Vistas\Clientes$6.class
 Vistas\NuevaReserva$3.class
+Vistas\MenuHotel$6.class
 Entidades\Reserva.class
 Entidades\Habitacion.class
 Vistas\Clientes$3.class
@@ -47,8 +51,10 @@ Vistas\MenuHotel$4.class
 Vistas\Clientes$2.class
 Vistas\Habitaciones$3.class
 Vistas\AñadirHabitacion$1.class
+Vistas\MenuHotel$7.class
 Vistas\Reservas$1.class
 Vistas\Recepcion$2.class
+Vistas\NuevaReserva$8.class
 Vistas\Reservas$5.class
 Vistas\NuevaReserva.class
 Vistas\NuevaReserva$2.class

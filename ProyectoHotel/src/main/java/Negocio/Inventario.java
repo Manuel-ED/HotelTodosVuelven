@@ -63,4 +63,18 @@ public class Inventario {
         }
         return lista;
     }
+    
+    public int contarHabitacionesPorEstado(String estado) {
+    int contador = 0;
+    ListaEnlazada<Habitacion> todas = obtenerTodasLasHabitaciones();
+    Nodo<Habitacion> actual = todas.getCabeza();
+    
+    while(actual != null) {
+        if (actual.getDato().getEstado().equalsIgnoreCase(estado)) {
+            contador++;
+        }
+        actual = actual.getSiguiente();
+    }
+    return contador;
+}
 }

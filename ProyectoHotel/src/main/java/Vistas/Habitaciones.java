@@ -4,19 +4,52 @@
  */
 package Vistas;
 
+import Entidades.Habitacion;
+import Estructuras.ListaEnlazada;
+import Estructuras.Nodo;
+import Negocio.Hotel;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Pablo
  */
 public class Habitaciones extends javax.swing.JFrame {
-    
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Habitaciones.class.getName());
 
-    /**
-     * Creates new form Habitaciones
-     */
-    public Habitaciones() {
+    private final Hotel hotel;
+
+    public Habitaciones(Hotel hotel) {
+        this.hotel = hotel;
         initComponents();
+        cargarTablaHabitaciones();
+    }
+    
+    private void cargarTablaHabitaciones() {
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        model.setRowCount(0);
+
+        ListaEnlazada<Habitacion> lista = hotel.getInventarioManager().obtenerTodasLasHabitaciones();
+        Nodo<Habitacion> actual = lista.getCabeza();
+
+        while (actual != null) {
+            Habitacion h = actual.getDato();
+            model.addRow(new Object[]{
+                h.getNumero(),
+                h.getTipo(),
+                h.getEstado(),
+                h.getPrecio()
+            });
+
+            actual = actual.getSiguiente();
+        }
+    }
+    
+    private void mostrarDetalles(Habitacion h) {
+        jLabel6.setText(String.valueOf(h.getNumero()));
+        jLabel9.setText(h.getTipo());
+        jLabel7.setText(String.valueOf(h.getPrecio()));
+        jLabel8.setText(h.getEstado());
     }
 
     /**
@@ -259,45 +292,67 @@ public class Habitaciones extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-        // TODO add your handling code here:
+    String texto = jTextField1.getText();
+
+        if (!Util.Validador.validarNumeroHabitacion(texto)) {
+            JOptionPane.showMessageDialog(this, "Número inválido.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        int num = Integer.parseInt(texto);
+        Habitacion h = hotel.getInventarioManager().buscarHabitacion(num);
+
+        if (h == null) {
+            JOptionPane.showMessageDialog(this, "La habitación no existe.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        mostrarDetalles(h);
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void btnActualizarEstadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarEstadoActionPerformed
-        // TODO add your handling code here:
+    String texto = jTextField1.getText();
+
+        if (!Util.Validador.validarNumeroHabitacion(texto)) {
+            JOptionPane.showMessageDialog(this, "Número inválido.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        int num = Integer.parseInt(texto);
+        Habitacion h = hotel.getInventarioManager().buscarHabitacion(num);
+
+        if (h == null) {
+            JOptionPane.showMessageDialog(this, "La habitación no existe.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        String estado = JOptionPane.showInputDialog(
+                this,
+                "Nuevo estado (Libre / Ocupada / Limpieza):",
+                h.getEstado()
+        );
+
+        if (estado == null || estado.isBlank()) return;
+
+        hotel.getInventarioManager().actualizarEstado(num, estado);
+
+        mostrarDetalles(h);
+        cargarTablaHabitaciones();
     }//GEN-LAST:event_btnActualizarEstadoActionPerformed
 
     private void btnActualizarVistaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarVistaActionPerformed
-        // TODO add your handling code here:
+    cargarTablaHabitaciones();
     }//GEN-LAST:event_btnActualizarVistaActionPerformed
 
     private void btnAñadirHabitacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAñadirHabitacionActionPerformed
-        // TODO add your handling code here:
+    AñadirHabitacion ventana = new AñadirHabitacion(hotel);
+    ventana.setVisible(true);
     }//GEN-LAST:event_btnAñadirHabitacionActionPerformed
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
-            logger.log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new Habitaciones().setVisible(true));
-    }
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnActualizarEstado;

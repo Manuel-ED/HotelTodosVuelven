@@ -3,21 +3,27 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package Vistas;
-
+import Negocio.Hotel; 
+import Entidades.Cliente;
+import java.util.logging.Logger;
 /**
  *
  * @author Pablo
  */
 public class MenuHotel extends javax.swing.JFrame {
     
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(MenuHotel.class.getName());
+    private Hotel hotel;
 
-    /**
-     * Creates new form Principal
-     */
     public MenuHotel() {
-        initComponents();
+        this(new Hotel());
     }
+
+    public MenuHotel(Hotel hotel) {
+        initComponents();
+        this.hotel = hotel;
+        actualizarDashboard();
+    }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -53,7 +59,7 @@ public class MenuHotel extends javax.swing.JFrame {
         jLabel13 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jPanel3.setBackground(new java.awt.Color(0, 102, 102));
         jPanel3.setFocusCycleRoot(true);
@@ -143,7 +149,7 @@ public class MenuHotel extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel3.setText("Clientes en Fila: ");
 
-        jLabel6.setText("Esperando: Atención:");
+        jLabel6.setText("Esperando Atención:");
 
         jLabel7.setText("Siguiente:");
 
@@ -233,7 +239,7 @@ public class MenuHotel extends javax.swing.JFrame {
         jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel5.setText("Reservas para Hoy: ");
 
-        jLabel9.setText("Reservas con Check-in hoy");
+        jLabel9.setText("Todas las reservas");
 
         jLabel13.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel13.setText("11111");
@@ -242,17 +248,14 @@ public class MenuHotel extends javax.swing.JFrame {
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel6Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
                 .addContainerGap(30, Short.MAX_VALUE)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                        .addComponent(jLabel9)
-                        .addGap(47, 47, 47))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                        .addComponent(jLabel5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(20, 20, 20))))
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel9)
+                    .addComponent(jLabel5))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(20, 20, 20))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -332,28 +335,80 @@ public class MenuHotel extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnRecepcionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRecepcionActionPerformed
-        // TODO add your handling code here:
+    Recepcion vista = new Recepcion(hotel);
+vista.addWindowListener(new java.awt.event.WindowAdapter() {
+    @Override
+    public void windowClosed(java.awt.event.WindowEvent e) {
+        actualizarDashboard();
+    }
+});
+vista.setVisible(true);    
     }//GEN-LAST:event_btnRecepcionActionPerformed
 
     private void btnReservasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReservasActionPerformed
-        // TODO add your handling code here:
+    Reservas vista = new Reservas(hotel);
+        vista.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosed(java.awt.event.WindowEvent e) {
+                actualizarDashboard();
+            }
+        });
+        vista.setVisible(true);
     }//GEN-LAST:event_btnReservasActionPerformed
 
     private void btnHabitacionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHabitacionesActionPerformed
-        // TODO add your handling code here:
+    Habitaciones vista = new Habitaciones(hotel);
+        vista.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosed(java.awt.event.WindowEvent e) {
+                actualizarDashboard();
+            }
+        });
+        vista.setVisible(true);
     }//GEN-LAST:event_btnHabitacionesActionPerformed
 
     private void btnClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClientesActionPerformed
-        // TODO add your handling code here:
+    Clientes vista = new Clientes(hotel);
+        vista.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosed(java.awt.event.WindowEvent e) {
+                actualizarDashboard();
+            }
+        });
+        vista.setVisible(true);
     }//GEN-LAST:event_btnClientesActionPerformed
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
-
+        this.dispose();
     }//GEN-LAST:event_btnSalirActionPerformed
 
     /**
      * @param args the command line arguments
      */
+    public void actualizarDashboard() {
+
+    int clientesEnFila = hotel.getRecepcionManager()
+            .getFilaEsperaClientes()
+            .getTamano();
+    jLabel10.setText(String.valueOf(clientesEnFila));
+
+    Cliente siguiente = hotel.getRecepcionManager().verSiguiente();
+    if (siguiente != null) {
+        jLabel11.setText(siguiente.getNombre());
+    } else {
+        jLabel11.setText("Nadie");
+    }
+
+    int libres = hotel.getInventarioManager()
+            .contarHabitacionesPorEstado("Libre");
+    jLabel12.setText(String.valueOf(libres));
+
+    int totalReservas = hotel.getListaReservas().getTamano();
+    jLabel13.setText(String.valueOf(totalReservas));
+    }
+    
+    private static final Logger logger = Logger.getLogger(MenuHotel.class.getName());
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
