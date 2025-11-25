@@ -5,6 +5,7 @@
 package Vistas;
 
 import Negocio.Hotel;
+import Util.Validador;
 import javax.swing.JOptionPane;
 
 /**
@@ -431,23 +432,32 @@ public NuevaReserva(Hotel hotel) {
     private void btnGuardarReservaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarReservaActionPerformed
     try {
         String dni = txtBuscarCliente.getText().trim();
-        Entidades.Cliente c = hotel.buscarCliente(dni);
-        if (c == null) {
-            JOptionPane.showMessageDialog(this, "Debe seleccionar un cliente válido.", "Error", JOptionPane.ERROR_MESSAGE);
+        String habStr = txtNumeroHabitacionDeseada.getText().trim();
+
+        if (!Validador.validarDni(dni)) {
+            JOptionPane.showMessageDialog(this, "Error de DNI: Debe ser numérico de 8 dígitos.", "Validación", JOptionPane.ERROR_MESSAGE);
+            txtBuscarCliente.requestFocus();
             return;
         }
 
-        String habStr = txtNumeroHabitacionDeseada.getText().trim();
-        if (habStr.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Ingrese un número de habitación.", "Error", JOptionPane.ERROR_MESSAGE);
+        Entidades.Cliente c = hotel.buscarCliente(dni);
+        if (c == null) {
+            JOptionPane.showMessageDialog(this, "Debe seleccionar un cliente válido (DNI no encontrado).", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        if (!Validador.validarNumeroHabitacion(habStr)) {
+            JOptionPane.showMessageDialog(this, "Error de Habitación: Número de habitación inválido (debe ser un entero positivo).", "Validación", JOptionPane.ERROR_MESSAGE);
+            txtNumeroHabitacionDeseada.requestFocus();
             return;
         }
 
         int numH = Integer.parseInt(habStr);
         Entidades.Habitacion h = hotel.getInventarioManager().buscarHabitacion(numH);
 
+        
         if (h == null || !"Libre".equals(h.getEstado())) {
-            JOptionPane.showMessageDialog(this, "La habitación no está disponible.", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Error: La habitación no está disponible o no existe.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
@@ -455,13 +465,13 @@ public NuevaReserva(Hotel hotel) {
             JOptionPane.showMessageDialog(this, "Debe seleccionar Fechas de Check-in y Check-out.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-
+        
         String fechaIn = new java.text.SimpleDateFormat("dd/MM/yyyy").format(CalenderCheckIN.getDate());
         String fechaOut = new java.text.SimpleDateFormat("dd/MM/yyyy").format(CalenderCheckOUT.getDate());
-
+        
         double costo;
         try {
-            costo = Double.parseDouble(jLabel23.getText());
+            costo = Double.parseDouble(jLabel23.getText()); 
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "Calcule el costo total antes de guardar.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
@@ -472,12 +482,12 @@ public NuevaReserva(Hotel hotel) {
 
         hotel.crearReserva(r);
 
-        JOptionPane.showMessageDialog(this, "Reserva registrada correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(this, "Reserva registrada correctamente con código: " + codigo, "Éxito", JOptionPane.INFORMATION_MESSAGE);
 
         this.dispose();
 
     } catch (Exception e) {
-        JOptionPane.showMessageDialog(this, "Ocurrió un error al guardar la reserva.", "Error", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(this, "Ocurrió un error al guardar la reserva: " + e.getMessage(), "Error Interno", JOptionPane.ERROR_MESSAGE);
     }
     }//GEN-LAST:event_btnGuardarReservaActionPerformed
 

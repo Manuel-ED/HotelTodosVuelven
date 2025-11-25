@@ -7,7 +7,7 @@ public class Validador {
 
     private static final String DNI_REGEX = "^[0-9]{8}$"; 
     private static final String NUMERO_REGEX = "^[0-9]+$"; 
-    private static final String TELEFONO_REGEX = "^[0-9]{7,10}$"; 
+    private static final String TELEFONO_REGEX = "^[0-9]{9}$"; 
     private static final String EMAIL_REGEX = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
     private static final String FECHA_REGEX = "^(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[0-2])/(\\d{4})$";
 

@@ -150,25 +150,25 @@ public class RegistrarNuevoCliente extends javax.swing.JFrame {
     String email = txtEmail.getText().trim();
 
     if (!Validador.validarDni(dni)) {
-        JOptionPane.showMessageDialog(this, "Error: DNI debe ser numérico de 8 dígitos.", "Validación", JOptionPane.WARNING_MESSAGE);
+        JOptionPane.showMessageDialog(this, "Error: DNI es obligatorio y debe ser numérico de 8 dígitos.", "Validación", JOptionPane.WARNING_MESSAGE);
         txtDNI.requestFocus();
         return;
     }
 
     if (!Validador.esAlfabetico(nombre)) {
-        JOptionPane.showMessageDialog(this, "Error: El nombre es obligatorio y solo debe contener letras.", "Validación", JOptionPane.WARNING_MESSAGE);
+        JOptionPane.showMessageDialog(this, "Error: El Nombre Completo es obligatorio y solo debe contener letras.", "Validación", JOptionPane.WARNING_MESSAGE);
         txtNombreCompleto.requestFocus();
         return;
     }
 
-    if (Validador.esNoVacio(telefono) && !Validador.validarTelefono(telefono)) {
-        JOptionPane.showMessageDialog(this, "Error: Formato de Teléfono inválido.", "Validación", JOptionPane.WARNING_MESSAGE);
+    if (!Validador.validarTelefono(telefono)) {
+        JOptionPane.showMessageDialog(this, "Error: El Teléfono es obligatorio y el formato es inválido (7 a 10 dígitos).", "Validación", JOptionPane.WARNING_MESSAGE);
         txtTelefono.requestFocus();
         return;
     }
 
-    if (Validador.esNoVacio(email) && !Validador.validarEmail(email)) {
-        JOptionPane.showMessageDialog(this, "Error: Formato de Email inválido.", "Validación", JOptionPane.WARNING_MESSAGE);
+    if (!Validador.validarEmail(email)) {
+        JOptionPane.showMessageDialog(this, "Error: El Email es obligatorio y el formato es inválido.", "Validación", JOptionPane.WARNING_MESSAGE);
         txtEmail.requestFocus();
         return;
     }
