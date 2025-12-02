@@ -16,11 +16,19 @@ public class Inventario {
     }
 
     private void precargarHabitaciones() {
-        registrarHabitacion(new Habitacion(101, "Simple", 100.0, "Libre"));
-        registrarHabitacion(new Habitacion(102, "Doble", 150.0, "Libre"));
-        registrarHabitacion(new Habitacion(201, "Suite", 250.0, "Ocupada"));
-        registrarHabitacion(new Habitacion(202, "Simple", 100.0, "Limpieza"));
-        System.out.println("Inventario precargado con 4 habitaciones de prueba.");
+    registrarHabitacion(new Habitacion(101, "Simple", 100.0, "Ocupada"));
+    registrarHabitacion(new Habitacion(102, "Doble", 150.0, "Ocupada"));
+    registrarHabitacion(new Habitacion(103, "Simple", 100.0, "Limpieza"));
+    registrarHabitacion(new Habitacion(104, "Suite", 250.0, "Libre"));
+    registrarHabitacion(new Habitacion(105, "Doble", 150.0, "Libre"));
+
+    registrarHabitacion(new Habitacion(201, "Suite", 250.0, "Ocupada"));
+    registrarHabitacion(new Habitacion(202, "Simple", 100.0, "Limpieza"));
+    registrarHabitacion(new Habitacion(203, "Doble", 150.0, "Ocupada"));
+    registrarHabitacion(new Habitacion(204, "Simple", 100.0, "Libre"));
+    registrarHabitacion(new Habitacion(205, "Familiar", 300.0, "Libre"));
+
+    System.out.println("Inventario precargado.");
     }
 
     public void registrarHabitacion(Habitacion h) {

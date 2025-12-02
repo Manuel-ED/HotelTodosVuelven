@@ -11,14 +11,15 @@ public class Hotel {
     private Recepcion recepcion;
     private ListaEnlazada<Reserva> listaReservas;
     private ArbolBinario<Cliente> arbolClientes;
+    
 
     public Hotel() {
-        this.inventario = new Inventario();
-        this.recepcion = new Recepcion();
-        this.listaReservas = new ListaEnlazada<>();
-        this.arbolClientes = new ArbolBinario<>();
-        System.out.println("Sistema Hotel 'Todos Vuelven' iniciado.");
-    }
+    this.inventario = new Inventario();
+    this.recepcion  = new Recepcion();
+    this.listaReservas = new ListaEnlazada<>();
+    this.arbolClientes = new ArbolBinario<>();
+    System.out.println("Sistema Hotel 'Todos Vuelven' iniciado.");
+}
     
     public void registrarNuevoCliente(Cliente cliente) {
         arbolClientes.insertar(cliente);
@@ -54,21 +55,43 @@ public class Hotel {
         }
         return false;
     }
+    
+    public void registrarClienteEnRecepcion(Cliente cliente) {
+    registrarNuevoCliente(cliente);        
+    recepcion.registrarLlegada(cliente);  
+    }
 
-
-    public Inventario getInventarioManager() {
+    public Inventario getInventario() {
         return inventario;
     }
 
-    public Recepcion getRecepcionManager() {
+    public void setInventario(Inventario inventario) {
+        this.inventario = inventario;
+    }
+
+    public Recepcion getRecepcion() {
         return recepcion;
+    }
+
+    public void setRecepcion(Recepcion recepcion) {
+        this.recepcion = recepcion;
     }
 
     public ListaEnlazada<Reserva> getListaReservas() {
         return listaReservas;
     }
-    
+
+    public void setListaReservas(ListaEnlazada<Reserva> listaReservas) {
+        this.listaReservas = listaReservas;
+    }
+
     public ArbolBinario<Cliente> getArbolClientes() {
         return arbolClientes;
     }
+
+    public void setArbolClientes(ArbolBinario<Cliente> arbolClientes) {
+        this.arbolClientes = arbolClientes;
+    }
+
+    
 }

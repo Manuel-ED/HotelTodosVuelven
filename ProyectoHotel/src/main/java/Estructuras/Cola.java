@@ -87,5 +87,9 @@ public class Cola<T> {
         actual = actual.getSiguiente();
     }
     return lista;
+    }
+    
+    public Nodo<T> getFrente() {
+    return frente;
 }
 }

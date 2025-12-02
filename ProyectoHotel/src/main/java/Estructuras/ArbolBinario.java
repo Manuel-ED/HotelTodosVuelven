@@ -61,5 +61,16 @@ public class ArbolBinario<T extends Comparable<T>> {
     }
     public NodoArbol<T> getRaiz() {
     return raiz;
+    }
+    public int contarNodos() {
+    return contarNodosRecursivo(raiz);
 }
+
+    private int contarNodosRecursivo(NodoArbol<T> nodo) {
+    if (nodo == null) {
+        return 0;
+    }
+    return 1 + contarNodosRecursivo(nodo.getIzquierda())
+             + contarNodosRecursivo(nodo.getDerecha());
+    }
 }

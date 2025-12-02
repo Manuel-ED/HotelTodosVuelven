@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<reporteHotel fecha="2025-12-02T04:36:18.992298">
+  <resumenClientes enFila="0" siguiente="Nadie" totalRegistrados="0"/>
+  <resumenHabitaciones libres="4" ocupadas="4"/>
+  <resumenReservas total="0"/>
+</reporteHotel>

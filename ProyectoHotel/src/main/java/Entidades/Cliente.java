@@ -1,6 +1,7 @@
 package Entidades;
 
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 public class Cliente implements Comparable<Cliente> {
     private String dni;
@@ -14,8 +15,8 @@ public class Cliente implements Comparable<Cliente> {
         this.nombre = nombre;
         this.telefono = telefono;
         this.email = email;
-        this.horaLlegada = java.time.LocalTime.now()
-            .format(java.time.format.DateTimeFormatter.ofPattern("HH:mm:ss"));
+        this.horaLlegada = LocalTime.now()
+    .format(DateTimeFormatter.ofPattern("HH:mm:ss"));
     }
     
     public Cliente(String dni) {

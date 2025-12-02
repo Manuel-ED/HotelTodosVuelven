@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<reporteHotel fecha="2025-12-02T04:33:21.845972">
+  <resumenClientes enFila="4" siguiente="Manuel" totalRegistrados="5"/>
+  <resumenHabitaciones libres="6" ocupadas="3"/>
+  <resumenReservas total="2">
+    <reserva checkIn="03/12/2025 14:00:00" checkOut="12/12/2025 12:00:00" codigo="3a859ecb" dni="12345678" habitacion="102"/>
+    <reserva checkIn="02/12/2025 14:00:00" checkOut="05/12/2025 12:00:00" codigo="47b7da41" dni="34567890" habitacion="204"/>
+  </resumenReservas>
+</reporteHotel>
